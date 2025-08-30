@@ -63,60 +63,63 @@ export default function DashboardCards({ transactions, products, salesOrders }: 
   const averageOrderValue = salesOrders.length > 0 
     ? salesOrders.reduce((sum, o) => sum + o.total, 0) / salesOrders.length 
     : 0;
+
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
-      <DashboardCard
-        title="Total Revenue"
-        value={`$${totalRevenue.toLocaleString()}`}
-        change={`${transactions.filter(t => t.type === 'income').length} transactions`}
-        changeType="positive"
-        icon={<DollarSign className="w-6 h-6 text-blue-600" />}
-      />
-      <DashboardCard
-        title="Sales Orders"
-        value={totalOrders.toString()}
-        change={`${pendingOrders} pending`}
-        changeType="positive"
-        icon={<ShoppingCart className="w-6 h-6 text-blue-600" />}
-      />
-      <DashboardCard
-        title="Low Stock Items"
-        value={lowStockCount.toString()}
-        change={`${products.length} total products`}
-        changeType={lowStockCount > 0 ? "negative" : "positive"}
-        icon={<Package className="w-6 h-6 text-blue-600" />}
-      />
-      <DashboardCard
-        title="Profit Margin"
-        value={`${profitMargin.toFixed(1)}%`}
-        change={`$${(totalRevenue - totalExpenses).toLocaleString()} profit`}
-        changeType={profitMargin > 0 ? "positive" : "negative"}
-        icon={<TrendingUp className="w-6 h-6 text-blue-600" />}
-      />
-    </div>
-    
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <DashboardCard
-        title="Inventory Value"
-        value={`$${inventoryValue.toLocaleString()}`}
-        change={`${products.length} products in stock`}
-        changeType="neutral"
-        icon={<Package className="w-6 h-6 text-purple-600" />}
-      />
-      <DashboardCard
-        title="Average Order Value"
-        value={`$${averageOrderValue.toLocaleString()}`}
-        change={`Based on ${salesOrders.length} orders`}
-        changeType="neutral"
-        icon={<TrendingUp className="w-6 h-6 text-green-600" />}
-      />
-      <DashboardCard
-        title="Cash Flow"
-        value={`$${(totalRevenue - totalExpenses).toLocaleString()}`}
-        change={`${totalRevenue > totalExpenses ? 'Positive' : 'Negative'} flow`}
-        changeType={totalRevenue > totalExpenses ? "positive" : "negative"}
-        icon={<DollarSign className="w-6 h-6 text-indigo-600" />}
-      />
-    </div>
+    <>
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 mb-6">
+        <DashboardCard
+          title="Total Revenue"
+          value={`$${totalRevenue.toLocaleString()}`}
+          change={`${transactions.filter(t => t.type === 'income').length} transactions`}
+          changeType="positive"
+          icon={<DollarSign className="w-6 h-6 text-blue-600" />}
+        />
+        <DashboardCard
+          title="Sales Orders"
+          value={totalOrders.toString()}
+          change={`${pendingOrders} pending`}
+          changeType="positive"
+          icon={<ShoppingCart className="w-6 h-6 text-blue-600" />}
+        />
+        <DashboardCard
+          title="Low Stock Items"
+          value={lowStockCount.toString()}
+          change={`${products.length} total products`}
+          changeType={lowStockCount > 0 ? "negative" : "positive"}
+          icon={<Package className="w-6 h-6 text-blue-600" />}
+        />
+        <DashboardCard
+          title="Profit Margin"
+          value={`${profitMargin.toFixed(1)}%`}
+          change={`$${(totalRevenue - totalExpenses).toLocaleString()} profit`}
+          changeType={profitMargin > 0 ? "positive" : "negative"}
+          icon={<TrendingUp className="w-6 h-6 text-blue-600" />}
+        />
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <DashboardCard
+          title="Inventory Value"
+          value={`$${inventoryValue.toLocaleString()}`}
+          change={`${products.length} products in stock`}
+          changeType="neutral"
+          icon={<Package className="w-6 h-6 text-purple-600" />}
+        />
+        <DashboardCard
+          title="Average Order Value"
+          value={`$${averageOrderValue.toLocaleString()}`}
+          change={`Based on ${salesOrders.length} orders`}
+          changeType="neutral"
+          icon={<TrendingUp className="w-6 h-6 text-green-600" />}
+        />
+        <DashboardCard
+          title="Cash Flow"
+          value={`$${(totalRevenue - totalExpenses).toLocaleString()}`}
+          change={`${totalRevenue > totalExpenses ? 'Positive' : 'Negative'} flow`}
+          changeType={totalRevenue > totalExpenses ? "positive" : "negative"}
+          icon={<DollarSign className="w-6 h-6 text-indigo-600" />}
+        />
+      </div>
+    </>
   );
 }
