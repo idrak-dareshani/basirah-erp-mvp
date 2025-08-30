@@ -20,6 +20,14 @@ const categories = [
   'Automotive',
   'Office Supplies',
   'Food & Beverages',
+  'Furniture',
+  'Toys & Games',
+  'Tools & Hardware',
+  'Pet Supplies',
+  'Jewelry',
+  'Art & Crafts',
+  'Music & Instruments',
+  'Industrial Equipment',
   'Other'
 ];
 

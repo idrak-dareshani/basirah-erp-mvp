@@ -62,7 +62,7 @@ export default function OrderList({ orders, type, onEdit, onDelete, onBulkDelete
   };
 
   const exportToCSV = () => {
-    const headers = ['Order #', type === 'sales' ? 'Customer' : 'Vendor', 'Date', 'Status', 'Items', 'Total'];
+    const headers = ['Order #', type === 'sales' ? 'Customer' : 'Vendor', 'Date', 'Status', 'Items', 'Subtotal', 'Tax', 'Total', 'Created'];
     const csvContent = [
       headers.join(','),
       ...filteredOrders.map(order => [
@@ -71,7 +71,10 @@ export default function OrderList({ orders, type, onEdit, onDelete, onBulkDelete
         order.date,
         order.status,
         order.items.length,
-        order.total.toFixed(2)
+        order.subtotal.toFixed(2),
+        order.tax.toFixed(2),
+        order.total.toFixed(2),
+        new Date(order.created_at).toLocaleDateString()
       ].join(','))
     ].join('\n');
 
@@ -196,7 +199,10 @@ export default function OrderList({ orders, type, onEdit, onDelete, onBulkDelete
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Date</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Status</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Items</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Subtotal</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Tax</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Total</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Created</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
@@ -226,8 +232,17 @@ export default function OrderList({ orders, type, onEdit, onDelete, onBulkDelete
                   <td className="px-6 py-4 text-sm text-slate-900">
                     {order.items.length} item{order.items.length !== 1 ? 's' : ''}
                   </td>
+                  <td className="px-6 py-4 text-sm text-slate-900">
+                    ${order.subtotal.toLocaleString()}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-slate-900">
+                    ${order.tax.toLocaleString()}
+                  </td>
                   <td className="px-6 py-4 text-sm font-medium text-slate-900">
                     ${order.total.toLocaleString()}
+                  </td>
+                  <td className="px-6 py-4 text-sm text-slate-500">
+                    {new Date(order.created_at).toLocaleDateString()}
                   </td>
                   <td className="px-6 py-4 text-sm font-medium">
                     <div className="flex space-x-2">

@@ -188,6 +188,31 @@ export default function OrderForm({ order, type, customers, vendors, onSave, onC
             </div>
           </div>
 
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-2">Priority</label>
+              <select
+                value={formData.priority || 'normal'}
+                onChange={(e) => setFormData(prev => ({ ...prev, priority: e.target.value }))}
+                className="w-full border border-slate-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="low">Low</option>
+                <option value="normal">Normal</option>
+                <option value="high">High</option>
+                <option value="urgent">Urgent</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-2">Expected Delivery</label>
+              <input
+                type="date"
+                value={formData.expectedDelivery || ''}
+                onChange={(e) => setFormData(prev => ({ ...prev, expectedDelivery: e.target.value }))}
+                className="w-full border border-slate-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+          </div>
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-2">Status</label>
             <select
@@ -207,6 +232,16 @@ export default function OrderForm({ order, type, customers, vendors, onSave, onC
             </select>
           </div>
 
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-2">Notes</label>
+            <textarea
+              value={formData.notes || ''}
+              onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))}
+              className="w-full border border-slate-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              rows={3}
+              placeholder="Additional notes or special instructions..."
+            />
+          </div>
           <div>
             <div className="flex items-center justify-between mb-4">
               <h4 className="text-lg font-medium text-slate-900">Items</h4>
@@ -233,7 +268,7 @@ export default function OrderForm({ order, type, customers, vendors, onSave, onC
                       <option value="">Select Product</option>
                       {products.map((product: any) => (
                         <option key={product.id} value={product.id}>
-                          {product.name} - ${product.unit_price}
+                          {product.name} - ${product.unit_price} (Stock: {product.stock})
                         </option>
                       ))}
                     </select>
@@ -263,9 +298,22 @@ export default function OrderForm({ order, type, customers, vendors, onSave, onC
                     />
                   </div>
                   
+                  <div className="w-24">
+                    <input
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      max="100"
+                      value={item.discount || 0}
+                      onChange={(e) => updateItem(index, 'discount', parseFloat(e.target.value) || 0)}
+                      className="w-full border border-slate-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="Disc %"
+                    />
+                  </div>
+                  
                   <div className="w-32 flex items-center">
                     <span className="text-sm font-medium text-slate-900">
-                      ${item.total.toFixed(2)}
+                      ${(item.total * (1 - (item.discount || 0) / 100)).toFixed(2)}
                     </span>
                   </div>
                   
@@ -281,13 +329,32 @@ export default function OrderForm({ order, type, customers, vendors, onSave, onC
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div></div>
-            <div></div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-slate-700 mb-2">Payment Terms</label>
+              <select
+                value={formData.paymentTerms || 'net-30'}
+                onChange={(e) => setFormData(prev => ({ ...prev, paymentTerms: e.target.value }))}
+                className="w-full border border-slate-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="immediate">Immediate</option>
+                <option value="net-15">Net 15 days</option>
+                <option value="net-30">Net 30 days</option>
+                <option value="net-60">Net 60 days</option>
+                <option value="net-90">Net 90 days</option>
+              </select>
+            </div>
+            
             <div className="space-y-2">
               <div className="flex justify-between">
                 <span className="text-sm text-slate-600">Subtotal:</span>
                 <span className="text-sm font-medium">${subtotal.toFixed(2)}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-sm text-slate-600">Discount:</span>
+                <span className="text-sm font-medium text-red-600">
+                  -${(subtotal * (formData.discount || 0) / 100).toFixed(2)}
+                </span>
               </div>
               <div className="flex justify-between items-center">
                 <span className="text-sm text-slate-600">Tax:</span>
@@ -300,9 +367,22 @@ export default function OrderForm({ order, type, customers, vendors, onSave, onC
                   className="w-24 border border-slate-300 rounded-md px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
+              <div className="flex justify-between items-center">
+                <span className="text-sm text-slate-600">Shipping:</span>
+                <input
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  value={formData.shipping || 0}
+                  onChange={(e) => setFormData(prev => ({ ...prev, shipping: parseFloat(e.target.value) || 0 }))}
+                  className="w-24 border border-slate-300 rounded-md px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                />
+              </div>
               <div className="flex justify-between border-t pt-2">
                 <span className="text-base font-medium text-slate-900">Total:</span>
-                <span className="text-base font-bold text-slate-900">${total.toFixed(2)}</span>
+                <span className="text-base font-bold text-slate-900">
+                  ${(subtotal * (1 - (formData.discount || 0) / 100) + formData.tax + (formData.shipping || 0)).toFixed(2)}
+                </span>
               </div>
             </div>
           </div>

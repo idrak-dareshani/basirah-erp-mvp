@@ -68,18 +68,20 @@ export default function ProductList({ products, onEdit, onDelete, onBulkDelete }
   };
 
   const exportToCSV = () => {
-    const headers = ['Name', 'SKU', 'Category', 'Stock', 'Min Stock', 'Unit Price', 'Cost Price', 'Total Value'];
+    const headers = ['Name', 'SKU', 'Category', 'Cost Price', 'Unit Price', 'Margin %', 'Stock', 'Min Stock', 'Total Value', 'Created'];
     const csvContent = [
       headers.join(','),
       ...filteredProducts.map(p => [
         `"${p.name}"`,
         p.sku,
         p.category,
+        p.cost_price.toFixed(2),
+        p.unit_price.toFixed(2),
+        (((p.unit_price - p.cost_price) / p.unit_price) * 100).toFixed(1),
         p.stock,
         p.min_stock,
-        p.unit_price,
-        p.cost_price,
-        (p.stock * p.unit_price).toFixed(2)
+        (p.stock * p.unit_price).toFixed(2),
+        new Date(p.created_at).toLocaleDateString()
       ].join(','))
     ].join('\n');
 
@@ -197,15 +199,19 @@ export default function ProductList({ products, onEdit, onDelete, onBulkDelete }
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Product</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">SKU</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Category</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Cost Price</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Stock</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Unit Price</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Margin</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Total Value</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Created</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200">
               {filteredProducts.map((product) => {
                 const isLowStock = product.stock <= product.min_stock;
+                const margin = ((product.unit_price - product.cost_price) / product.unit_price) * 100;
                 return (
                   <tr key={product.id} className="hover:bg-slate-50">
                     <td className="px-6 py-4">
@@ -227,6 +233,9 @@ export default function ProductList({ products, onEdit, onDelete, onBulkDelete }
                     </td>
                     <td className="px-6 py-4 text-sm text-slate-900">{product.sku}</td>
                     <td className="px-6 py-4 text-sm text-slate-900">{product.category}</td>
+                    <td className="px-6 py-4 text-sm text-slate-900">
+                      ${product.cost_price.toFixed(2)}
+                    </td>
                     <td className="px-6 py-4">
                       <div className="text-sm">
                         <span className={`font-medium ${isLowStock ? 'text-red-600' : 'text-slate-900'}`}>
@@ -238,8 +247,16 @@ export default function ProductList({ products, onEdit, onDelete, onBulkDelete }
                     <td className="px-6 py-4 text-sm font-medium text-slate-900">
                       ${product.unit_price.toFixed(2)}
                     </td>
+                    <td className="px-6 py-4 text-sm font-medium">
+                      <span className={`${margin > 20 ? 'text-green-600' : margin > 10 ? 'text-yellow-600' : 'text-red-600'}`}>
+                        {margin.toFixed(1)}%
+                      </span>
+                    </td>
                     <td className="px-6 py-4 text-sm font-medium text-slate-900">
                       ${(product.stock * product.unit_price).toFixed(2)}
+                    </td>
+                    <td className="px-6 py-4 text-sm text-slate-500">
+                      {new Date(product.created_at).toLocaleDateString()}
                     </td>
                     <td className="px-6 py-4 text-sm font-medium">
                       <div className="flex space-x-2">

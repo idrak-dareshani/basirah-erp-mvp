@@ -15,6 +15,10 @@ const categories = {
     'Sales Revenue',
     'Service Revenue',
     'Interest Income',
+    'Investment Income',
+    'Rental Income',
+    'Commission Income',
+    'Refunds Received',
     'Other Income'
   ],
   expense: [
@@ -25,6 +29,13 @@ const categories = {
     'Software',
     'Equipment',
     'Professional Services',
+    'Rent',
+    'Insurance',
+    'Taxes',
+    'Bank Fees',
+    'Maintenance',
+    'Training',
+    'Legal Fees',
     'Other Expenses'
   ]
 };

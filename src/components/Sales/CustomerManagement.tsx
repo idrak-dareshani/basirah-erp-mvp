@@ -84,15 +84,17 @@ export default function CustomerManagement({ customers, onUpdate, type }: Custom
   };
 
   const exportToCSV = () => {
-    const headers = ['Name', 'Email', 'Phone', 'Address', 'Created Date'];
+    const headers = ['ID', 'Name', 'Email', 'Phone', 'Address', 'Created Date', 'Updated Date'];
     const csvContent = [
       headers.join(','),
       ...filteredCustomers.map(c => [
+        c.id.slice(0, 8),
         `"${c.name}"`,
         c.email,
         c.phone,
         `"${c.address}"`,
-        new Date(c.createdAt).toLocaleDateString()
+        new Date(c.created_at).toLocaleDateString(),
+        new Date(c.updated_at).toLocaleDateString()
       ].join(','))
     ].join('\n');
 
@@ -186,10 +188,13 @@ export default function CustomerManagement({ customers, onUpdate, type }: Custom
                       className="rounded border-slate-300 text-blue-600 focus:ring-blue-500"
                     />
                   </th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">ID</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Name</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Email</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Phone</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Address</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Created</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Updated</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Actions</th>
                 </tr>
               </thead>
@@ -204,10 +209,19 @@ export default function CustomerManagement({ customers, onUpdate, type }: Custom
                         className="rounded border-slate-300 text-blue-600 focus:ring-blue-500"
                       />
                     </td>
+                    <td className="px-6 py-4 text-xs font-mono text-slate-500">
+                      {customer.id.slice(0, 8)}...
+                    </td>
                     <td className="px-6 py-4 text-sm font-medium text-slate-900">{customer.name}</td>
                     <td className="px-6 py-4 text-sm text-slate-900">{customer.email}</td>
                     <td className="px-6 py-4 text-sm text-slate-900">{customer.phone}</td>
                     <td className="px-6 py-4 text-sm text-slate-900 max-w-xs truncate">{customer.address}</td>
+                    <td className="px-6 py-4 text-sm text-slate-500">
+                      {new Date(customer.created_at).toLocaleDateString()}
+                    </td>
+                    <td className="px-6 py-4 text-sm text-slate-500">
+                      {new Date(customer.updated_at).toLocaleDateString()}
+                    </td>
                     <td className="px-6 py-4 text-sm font-medium">
                       <div className="flex space-x-2">
                         <button
