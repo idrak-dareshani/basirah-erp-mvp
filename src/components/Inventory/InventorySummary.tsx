@@ -106,7 +106,7 @@ export default function InventorySummary({ products }: InventorySummaryProps) {
             <p className="text-sm font-medium text-slate-600">High Value Items</p>
             <p className="text-2xl font-bold text-indigo-600 mt-2">{highValueProducts}</p>
             <p className="text-sm text-slate-500 mt-1">
-              Value > $1,000
+              {'Value > $1,000'}
             </p>
           </div>
           <div className="w-12 h-12 bg-indigo-50 rounded-lg flex items-center justify-center">

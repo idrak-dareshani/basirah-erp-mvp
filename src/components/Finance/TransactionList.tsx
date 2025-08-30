@@ -209,9 +209,6 @@ export default function TransactionList({ transactions, onEdit, onDelete, onBulk
                     transaction.type === 'income' 
                       ? 'bg-green-100 text-green-800' 
                       : 'bg-red-100 text-red-800'
-                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Reference</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Balance</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Created</th>
                   }`}>
                     {transaction.type}
                   </span>
@@ -228,13 +225,24 @@ export default function TransactionList({ transactions, onEdit, onDelete, onBulk
                 <td className="px-6 py-4 text-sm font-medium">
                   <span className={transaction.type === 'income' ? 'text-green-600' : 'text-red-600'}>
                     {transaction.type === 'income' ? '+' : '-'}${transaction.amount.toLocaleString()}
-                  <td className="px-6 py-4 text-xs font-mono text-slate-500">
-                    {transaction.id.slice(0, 8)}...
-                  </td>
                   </span>
+                </td>
+                <td className="px-6 py-4 text-xs font-mono text-slate-500">
+                  {transaction.id.slice(0, 8)}...
                 </td>
                 <td className="px-6 py-4 text-sm text-slate-900">
                   {new Date(transaction.date).toLocaleDateString()}
+                </td>
+                <td className="px-6 py-4 text-sm text-slate-900">
+                  {transaction.reference || '-'}
+                </td>
+                <td className="px-6 py-4 text-sm font-medium">
+                  <span className="text-blue-600">
+                    ${calculateRunningBalance(transaction, filteredTransactions).toLocaleString()}
+                  </span>
+                </td>
+                <td className="px-6 py-4 text-sm text-slate-500">
+                  {new Date(transaction.created_at).toLocaleDateString()}
                 </td>
                 <td className="px-6 py-4 text-sm font-medium">
                   <div className="flex space-x-2">
@@ -243,6 +251,9 @@ export default function TransactionList({ transactions, onEdit, onDelete, onBulk
                       className="text-blue-600 hover:text-blue-900 p-1 rounded-md hover:bg-blue-50"
                     >
                       <Edit size={16} />
+                    </button>
+                    <button
+                      onClick={() => onDelete(transaction.id)}
                       className="text-red-600 hover:text-red-900 p-1 rounded-md hover:bg-red-50"
                     >
                       <Trash2 size={16} />
@@ -254,17 +265,6 @@ export default function TransactionList({ transactions, onEdit, onDelete, onBulk
           </tbody>
         </table>
       </div>
-                  <td className="px-6 py-4 text-sm text-slate-900">
-                    {transaction.reference || '-'}
-                  </td>
-                  <td className="px-6 py-4 text-sm font-medium">
-                    <span className="text-blue-600">
-                      ${calculateRunningBalance(transaction, filteredTransactions).toLocaleString()}
-                    </span>
-                  </td>
-                  <td className="px-6 py-4 text-sm text-slate-500">
-                    {new Date(transaction.created_at).toLocaleDateString()}
-                  </td>
       
       {filteredTransactions.length === 0 && (
         <div className="p-8 text-center">
