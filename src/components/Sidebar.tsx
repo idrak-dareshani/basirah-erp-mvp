@@ -5,7 +5,11 @@ import {
   ShoppingCart, 
   Package,
   Menu,
-  X
+  X,
+  Users,
+  Calculator,
+  FileText,
+  Settings
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -20,6 +24,10 @@ const menuItems = [
   { id: 'finance', label: 'Finance', icon: DollarSign },
   { id: 'sales', label: 'Sales/Purchase', icon: ShoppingCart },
   { id: 'inventory', label: 'Inventory', icon: Package },
+  { id: 'hr', label: 'Human Resources', icon: Users },
+  { id: 'accounting', label: 'Accounting', icon: Calculator },
+  { id: 'reports', label: 'Reports', icon: FileText },
+  { id: 'settings', label: 'Settings', icon: Settings },
 ];
 
 export default function Sidebar({ activeModule, onModuleChange, isOpen, onToggle }: SidebarProps) {

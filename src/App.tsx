@@ -5,6 +5,10 @@ import Dashboard from './components/Dashboard/Dashboard';
 import Finance from './components/Finance/Finance';
 import Sales from './components/Sales/Sales';
 import Inventory from './components/Inventory/Inventory';
+import HumanResources from './components/HumanResources/HumanResources';
+import Accounting from './components/Accounting/Accounting';
+import Reports from './components/Reports/Reports';
+import Settings from './components/Settings/Settings';
 
 function App() {
   const [activeModule, setActiveModule] = useState('dashboard');
@@ -20,6 +24,14 @@ function App() {
         return <Sales />;
       case 'inventory':
         return <Inventory />;
+      case 'hr':
+        return <HumanResources />;
+      case 'accounting':
+        return <Accounting />;
+      case 'reports':
+        return <Reports />;
+      case 'settings':
+        return <Settings />;
       default:
         return <Dashboard />;
     }

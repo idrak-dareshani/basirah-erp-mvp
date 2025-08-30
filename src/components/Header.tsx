@@ -10,7 +10,11 @@ const moduleLabels = {
   dashboard: 'Dashboard',
   finance: 'Finance Management',
   sales: 'Sales & Purchase',
-  inventory: 'Inventory Management'
+  inventory: 'Inventory Management',
+  hr: 'Human Resources',
+  accounting: 'Accounting',
+  reports: 'Reports & Analytics',
+  settings: 'Settings'
 };
 
 export default function Header({ onMenuToggle, activeModule }: HeaderProps) {
