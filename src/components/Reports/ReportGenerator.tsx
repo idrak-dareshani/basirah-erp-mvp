@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FileText, BarChart3, TrendingUp, Package, Download } from 'lucide-react';
+import { FileText, BarChart3, TrendingUp, Package, Download, Calendar, Database, HardDrive } from 'lucide-react';
 
 interface ReportGeneratorProps {
   onGenerateReport: (report: any) => void;
