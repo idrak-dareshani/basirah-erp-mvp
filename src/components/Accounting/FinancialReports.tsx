@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FileText, Download, Calendar, BarChart3 } from 'lucide-react';
+import { FileText, Download, Calendar, BarChart3, Package } from 'lucide-react';
 import { mockReports } from '../../data/mockData';
 
 interface FinancialReportsProps {
