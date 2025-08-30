@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Edit, Trash2, Search, Download, Trash, Eye, User } from 'lucide-react';
+import { Edit, Trash2, Search, Download, Trash, Eye, User, X } from 'lucide-react';
 
 interface EmployeeListProps {
   employees: any[];

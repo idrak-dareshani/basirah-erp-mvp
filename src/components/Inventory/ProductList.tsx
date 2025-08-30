@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Edit, Trash2, AlertTriangle, Search, Download, Trash, Eye } from 'lucide-react';
+import { Edit, Trash2, AlertTriangle, Search, Download, Trash, Eye, X } from 'lucide-react';
 import { Database } from '../../lib/database.types';
 
 type Product = Database['public']['Tables']['products']['Row'];

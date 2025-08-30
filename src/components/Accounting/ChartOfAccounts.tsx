@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Edit, Trash2, Search, Download } from 'lucide-react';
+import { Plus, Edit, Trash2, Search, Download, X } from 'lucide-react';
 
 interface ChartOfAccountsProps {
   accounts: any[];

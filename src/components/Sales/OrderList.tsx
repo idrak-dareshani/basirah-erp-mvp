@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Edit, Trash2, Eye, Search, Download, Trash, FileText } from 'lucide-react';
+import { Edit, Trash2, Eye, Search, Download, Trash, FileText, X } from 'lucide-react';
 import { SalesOrder, PurchaseOrder } from '../../types/erp';
 
 interface OrderListProps {
