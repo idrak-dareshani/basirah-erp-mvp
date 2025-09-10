@@ -251,6 +251,105 @@ export interface Database {
           created_at?: string
         }
       }
+      accounts: {
+        Row: {
+          id: string
+          account_number: string
+          account_name: string
+          account_type: 'Asset' | 'Liability' | 'Equity' | 'Revenue' | 'Expense'
+          category: string
+          balance: number
+          description: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          account_number: string
+          account_name: string
+          account_type: 'Asset' | 'Liability' | 'Equity' | 'Revenue' | 'Expense'
+          category: string
+          balance?: number
+          description?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          account_number?: string
+          account_name?: string
+          account_type?: 'Asset' | 'Liability' | 'Equity' | 'Revenue' | 'Expense'
+          category?: string
+          balance?: number
+          description?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      journal_entries: {
+        Row: {
+          id: string
+          entry_number: string
+          date: string
+          description: string
+          reference: string | null
+          total_debit: number
+          total_credit: number
+          status: 'draft' | 'posted' | 'voided'
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          id?: string
+          entry_number: string
+          date: string
+          description: string
+          reference?: string | null
+          total_debit?: number
+          total_credit?: number
+          status?: 'draft' | 'posted' | 'voided'
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          entry_number?: string
+          date?: string
+          description?: string
+          reference?: string | null
+          total_debit?: number
+          total_credit?: number
+          status?: 'draft' | 'posted' | 'voided'
+          created_at?: string
+          updated_at?: string
+        }
+      }
+      journal_entry_items: {
+        Row: {
+          id: string
+          journal_entry_id: string
+          account_name: string
+          debit: number
+          credit: number
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          journal_entry_id: string
+          account_name: string
+          debit?: number
+          credit?: number
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          journal_entry_id?: string
+          account_name?: string
+          debit?: number
+          credit?: number
+          created_at?: string
+        }
+      }
     }
     Views: {
       [_ in never]: never
