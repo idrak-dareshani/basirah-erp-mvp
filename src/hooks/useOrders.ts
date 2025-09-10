@@ -21,6 +21,47 @@ type OrderItem = {
   total: number;
 };
 
+// Helper function to create financial transaction
+const createFinancialTransaction = async (
+  type: 'income' | 'expense',
+  orderNumber: string,
+  total: number,
+  date: string,
+  entityName: string
+) => {
+  // Check if transaction already exists to prevent duplicates
+  const { data: existingTransaction } = await supabase
+    .from('transactions')
+    .select('id')
+    .eq('reference', orderNumber)
+    .single();
+
+  if (existingTransaction) {
+    return; // Transaction already exists, skip creation
+  }
+
+  const category = type === 'income' ? 'Sales Revenue' : 'Cost of Goods Sold';
+  const description = type === 'income' 
+    ? `Sales to ${entityName} - Order ${orderNumber}`
+    : `Purchase from ${entityName} - Order ${orderNumber}`;
+
+  const transaction = {
+    type,
+    category,
+    description,
+    amount: total,
+    date,
+    reference: orderNumber
+  };
+
+  const { error } = await supabase
+    .from('transactions')
+    .insert(transaction);
+
+  if (error) {
+    console.error('Error creating financial transaction:', error);
+  }
+};
 export function useSalesOrders() {
   const [orders, setOrders] = useState<SalesOrder[]>([]);
   const [loading, setLoading] = useState(true);
@@ -117,6 +158,16 @@ export function useSalesOrders() {
         if (itemsError) throw itemsError;
       }
 
+      // Create financial transaction if order is delivered
+      if (order.status === 'delivered') {
+        await createFinancialTransaction(
+          'income',
+          order.orderNumber,
+          order.total,
+          order.date,
+          order.customerName || 'Customer'
+        );
+      }
       await fetchOrders();
       return newOrder as SalesOrder;
     } catch (err) {
@@ -129,6 +180,12 @@ export function useSalesOrders() {
     try {
       const { items, ...order } = orderData;
 
+      // Get the current order to check previous status
+      const { data: currentOrder } = await supabase
+        .from('sales_orders')
+        .select('status')
+        .eq('id', id)
+        .single();
       // Update the order
       const { error: orderError } = await supabase
         .from('sales_orders')
@@ -170,6 +227,16 @@ export function useSalesOrders() {
         if (itemsError) throw itemsError;
       }
 
+      // Create financial transaction if status changed to delivered
+      if (order.status === 'delivered' && currentOrder?.status !== 'delivered') {
+        await createFinancialTransaction(
+          'income',
+          order.orderNumber,
+          order.total,
+          order.date,
+          order.customerName || 'Customer'
+        );
+      }
       await fetchOrders();
       return true;
     } catch (err) {
@@ -324,6 +391,16 @@ export function usePurchaseOrders() {
         if (itemsError) throw itemsError;
       }
 
+      // Create financial transaction if order is received
+      if (order.status === 'received') {
+        await createFinancialTransaction(
+          'expense',
+          order.orderNumber,
+          order.total,
+          order.date,
+          order.vendorName || 'Vendor'
+        );
+      }
       await fetchOrders();
       return newOrder as PurchaseOrder;
     } catch (err) {
@@ -336,6 +413,12 @@ export function usePurchaseOrders() {
     try {
       const { items, ...order } = orderData;
 
+      // Get the current order to check previous status
+      const { data: currentOrder } = await supabase
+        .from('purchase_orders')
+        .select('status')
+        .eq('id', id)
+        .single();
       // Update the order
       const { error: orderError } = await supabase
         .from('purchase_orders')
@@ -377,6 +460,16 @@ export function usePurchaseOrders() {
         if (itemsError) throw itemsError;
       }
 
+      // Create financial transaction if status changed to received
+      if (order.status === 'received' && currentOrder?.status !== 'received') {
+        await createFinancialTransaction(
+          'expense',
+          order.orderNumber,
+          order.total,
+          order.date,
+          order.vendorName || 'Vendor'
+        );
+      }
       await fetchOrders();
       return true;
     } catch (err) {
