@@ -12,7 +12,7 @@ import Settings from './components/Settings/Settings';
 
 function App() {
   const [activeModule, setActiveModule] = useState('dashboard');
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   const renderActiveModule = () => {
     switch (activeModule) {
@@ -42,17 +42,16 @@ function App() {
       <Sidebar
         activeModule={activeModule}
         onModuleChange={setActiveModule}
-        isOpen={sidebarOpen}
-        onToggle={() => setSidebarOpen(!sidebarOpen)}
+        isCollapsed={sidebarCollapsed}
       />
       
-      <div className="flex-1 flex flex-col lg:ml-0">
+      <div className="flex-1 flex flex-col">
         <Header 
-          onMenuToggle={() => setSidebarOpen(!sidebarOpen)}
-          activeModule={activeModule}
+          onMenuToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
+          sidebarCollapsed={sidebarCollapsed}
         />
         
-        <main className="flex-1 p-6">
+        <main className="flex-1 p-6 overflow-auto">
           {renderActiveModule()}
         </main>
       </div>

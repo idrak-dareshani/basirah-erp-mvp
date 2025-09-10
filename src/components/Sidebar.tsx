@@ -4,19 +4,17 @@ import {
   DollarSign, 
   ShoppingCart, 
   Package,
-  Menu,
-  X,
   Users,
   Calculator,
   FileText,
-  Settings
+  Settings,
+  Building2
 } from 'lucide-react';
 
 interface SidebarProps {
   activeModule: string;
   onModuleChange: (module: string) => void;
-  isOpen: boolean;
-  onToggle: () => void;
+  isCollapsed: boolean;
 }
 
 const menuItems = [
@@ -30,59 +28,48 @@ const menuItems = [
   { id: 'settings', label: 'Settings', icon: Settings },
 ];
 
-export default function Sidebar({ activeModule, onModuleChange, isOpen, onToggle }: SidebarProps) {
+export default function Sidebar({ activeModule, onModuleChange, isCollapsed }: SidebarProps) {
   return (
-    <>
-      {/* Mobile overlay */}
-      {isOpen && (
-        <div 
-          className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
-          onClick={onToggle}
-        />
+    <div className={`
+      bg-white border-r border-slate-200 h-full flex flex-col transition-all duration-300 ease-in-out
+      ${isCollapsed ? 'w-16' : 'w-64'}
+    `}>
+      {/* Logo Section - Only show when collapsed */}
+      {isCollapsed && (
+        <div className="flex items-center justify-center h-16 border-b border-slate-200">
+          <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+            <Building2 size={24} className="text-white" />
+          </div>
+        </div>
       )}
       
-      {/* Sidebar */}
-      <div className={`
-        fixed lg:static inset-y-0 left-0 z-50 w-64 bg-slate-900 text-white transform transition-transform duration-300 ease-in-out
-        ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
-      `}>
-        <div className="flex items-center justify-between h-16 px-6 border-b border-slate-700">
-          <h1 className="text-xl font-bold">ERP System</h1>
-          <button
-            onClick={onToggle}
-            className="lg:hidden p-1 rounded-md hover:bg-slate-700"
-          >
-            <X size={20} />
-          </button>
-        </div>
-        
-        <nav className="mt-8">
-          {menuItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = activeModule === item.id;
-            
-            return (
-              <button
-                key={item.id}
-                onClick={() => {
-                  onModuleChange(item.id);
-                  onToggle();
-                }}
-                className={`
-                  w-full flex items-center px-6 py-3 text-left transition-colors duration-200
-                  ${isActive 
-                    ? 'bg-blue-600 text-white border-r-4 border-blue-400' 
-                    : 'text-slate-300 hover:bg-slate-800 hover:text-white'
-                  }
-                `}
-              >
-                <Icon size={20} className="mr-3" />
-                {item.label}
-              </button>
-            );
-          })}
-        </nav>
-      </div>
-    </>
+      {/* Navigation */}
+      <nav className="flex-1 py-4">
+        {menuItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = activeModule === item.id;
+          
+          return (
+            <button
+              key={item.id}
+              onClick={() => onModuleChange(item.id)}
+              className={`
+                w-full flex items-center px-4 py-3 text-left transition-colors duration-200 group
+                ${isActive 
+                  ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-600' 
+                  : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                }
+              `}
+              title={isCollapsed ? item.label : undefined}
+            >
+              <Icon size={20} className={`${isCollapsed ? 'mx-auto' : 'mr-3'} flex-shrink-0`} />
+              {!isCollapsed && (
+                <span className="truncate">{item.label}</span>
+              )}
+            </button>
+          );
+        })}
+      </nav>
+    </div>
   );
 }
