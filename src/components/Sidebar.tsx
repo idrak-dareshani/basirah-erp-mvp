@@ -31,18 +31,9 @@ const menuItems = [
 export default function Sidebar({ activeModule, onModuleChange, isCollapsed }: SidebarProps) {
   return (
     <div className={`
-      bg-white border-r border-slate-200 h-full flex flex-col transition-all duration-300 ease-in-out
+      bg-white border-r border-slate-200 h-full flex flex-col transition-all duration-300 ease-in-out mt-16
       ${isCollapsed ? 'w-16' : 'w-64'}
     `}>
-      {/* Logo Section - Only show when collapsed */}
-      {isCollapsed && (
-        <div className="flex items-center justify-center h-16 border-b border-slate-200">
-          <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-            <Building2 size={24} className="text-white" />
-          </div>
-        </div>
-      )}
-      
       {/* Navigation */}
       <nav className="flex-1 py-4">
         {menuItems.map((item) => {

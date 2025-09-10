@@ -38,17 +38,17 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex">
-      <Sidebar
-        activeModule={activeModule}
-        onModuleChange={setActiveModule}
-        isCollapsed={sidebarCollapsed}
+    <div className="min-h-screen bg-slate-50 flex flex-col">
+      <Header 
+        onMenuToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
+        sidebarCollapsed={sidebarCollapsed}
       />
       
-      <div className="flex-1 flex flex-col">
-        <Header 
-          onMenuToggle={() => setSidebarCollapsed(!sidebarCollapsed)}
-          sidebarCollapsed={sidebarCollapsed}
+      <div className="flex flex-1">
+        <Sidebar
+          activeModule={activeModule}
+          onModuleChange={setActiveModule}
+          isCollapsed={sidebarCollapsed}
         />
         
         <main className="flex-1 p-6 overflow-auto">
