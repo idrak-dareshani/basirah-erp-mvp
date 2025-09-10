@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FileText, Download, Trash2, Calendar, Search } from 'lucide-react';
+import { FileText, Download, Trash2, Calendar, Search, TrendingUp, Package } from 'lucide-react';
 
 interface ReportsListProps {
   reports: any[];
