@@ -137,18 +137,6 @@ export default function Sales() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-end items-center">
-        {(activeTab === 'sales' || activeTab === 'purchase') && (
-          <button
-            onClick={() => setShowForm(true)}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
-          >
-            <Plus size={20} />
-            <span>New {activeTab === 'sales' ? 'Sales' : 'Purchase'} Order</span>
-          </button>
-        )}
-      </div>
-
       {/* Tab Navigation */}
       <div className="border-b border-slate-200">
         <nav className="-mb-px flex space-x-8">
@@ -171,6 +159,16 @@ export default function Sales() {
       {/* Tab Content */}
       {activeTab === 'sales' && (
         <div className="space-y-6">
+          <div className="flex justify-between items-center">
+            <h3 className="text-lg font-semibold text-slate-900">Sales Orders</h3>
+            <button
+              onClick={() => setShowForm(true)}
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
+            >
+              <Plus size={20} />
+              <span>New Sales Order</span>
+            </button>
+          </div>
           {salesLoading && (
             <div className="flex justify-center items-center py-8">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
@@ -189,6 +187,16 @@ export default function Sales() {
 
       {activeTab === 'purchase' && (
         <div className="space-y-6">
+          <div className="flex justify-between items-center">
+            <h3 className="text-lg font-semibold text-slate-900">Purchase Orders</h3>
+            <button
+              onClick={() => setShowForm(true)}
+              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
+            >
+              <Plus size={20} />
+              <span>New Purchase Order</span>
+            </button>
+          </div>
           {purchaseLoading && (
             <div className="flex justify-center items-center py-8">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
