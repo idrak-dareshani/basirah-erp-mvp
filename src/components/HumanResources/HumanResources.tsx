@@ -106,6 +106,7 @@ export default function HumanResources() {
           onEdit={handleEditEmployee}
           onDelete={handleDeleteEmployee}
           onBulkDelete={handleBulkDeleteEmployees}
+          onShowAddForm={() => setShowForm(true)}
         />
       )}
 
