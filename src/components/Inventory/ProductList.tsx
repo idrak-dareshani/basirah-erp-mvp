@@ -167,13 +167,13 @@ export default function ProductList({ products, onEdit, onDelete, onBulkDelete, 
                 <span>Export</span>
               </button>
 
-              <button
-          onClick={() => setShowForm(true)}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
-        >
-          <Plus size={20} />
-          <span>Add Product</span>
-        </button>
+                          <button
+              onClick={() => onShowAddForm?.()}
+              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors flex items-center space-x-2"
+            >
+              <Plus size={20} />
+              <span>Add Product</span>
+            </button>
               
             </div>
           </div>
@@ -410,13 +410,7 @@ export default function ProductList({ products, onEdit, onDelete, onBulkDelete, 
               )}
             </div>
 
-            <button
-              onClick={() => onShowAddForm?.()}
-              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors flex items-center space-x-2"
-            >
-              <Plus size={20} />
-              <span>Add Product</span>
-            </button>
+
           </div>
         </div>
       )}
