@@ -63,7 +63,6 @@ export default function HumanResources() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-slate-900">Human Resources</h2>
         {activeTab === 'employees' && (
           <button
             onClick={() => setShowForm(true)}
