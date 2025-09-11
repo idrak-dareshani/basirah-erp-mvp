@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShoppingCart, Clock, CheckCircle, XCircle } from 'lucide-react';
+import { ShoppingCart, Clock, CheckCircle, XCircle, TrendingUp, DollarSign } from 'lucide-react';
 import { SalesOrder, PurchaseOrder } from '../../types/erp';
 
 interface SalesSummaryProps {
