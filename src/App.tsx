@@ -88,10 +88,10 @@ function App() {
         
         <main className="flex-1 p-6 overflow-auto">
           <div className="mb-6">
-            <h1 className="text-3xl font-bold text-slate-900 mb-2">
+            <h1 className="text-xl font-bold text-slate-900 mb-1">
               {moduleTitles[activeModule as keyof typeof moduleTitles]?.title}
             </h1>
-            <p className="text-slate-600">
+            <p className="text-sm text-slate-600">
               {moduleTitles[activeModule as keyof typeof moduleTitles]?.subtitle}
             </p>
           </div>

@@ -137,8 +137,7 @@ export default function Sales() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-slate-900">Sales & Purchase Management</h2>
+      <div className="flex justify-end items-center">
         {(activeTab === 'sales' || activeTab === 'purchase') && (
           <button
             onClick={() => setShowForm(true)}

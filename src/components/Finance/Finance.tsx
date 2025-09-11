@@ -49,8 +49,7 @@ export default function Finance() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-slate-900">Finance Management</h2>
+      <div className="flex justify-end items-center">
         <button
           onClick={() => setShowForm(true)}
           className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"

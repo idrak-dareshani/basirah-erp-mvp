@@ -31,7 +31,7 @@ const menuItems = [
 export default function Sidebar({ activeModule, onModuleChange, isCollapsed }: SidebarProps) {
   return (
     <div className={`
-      bg-white border-r border-slate-200 h-full flex flex-col transition-all duration-300 ease-in-out mt-16
+      bg-white border-r border-slate-200 h-full flex flex-col transition-all duration-300 ease-in-out
       ${isCollapsed ? 'w-16' : 'w-64'}
     `}>
       {/* Navigation */}
