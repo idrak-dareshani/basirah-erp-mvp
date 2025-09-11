@@ -6,6 +6,7 @@ interface EmployeeListProps {
   onEdit: (employee: any) => void;
   onDelete: (id: string) => void;
   onBulkDelete?: (ids: string[]) => void;
+  onShowAddForm?: () => void;
 }
 
 export default function EmployeeList({ employees, onEdit, onDelete, onBulkDelete, onShowAddForm }: EmployeeListProps) {
