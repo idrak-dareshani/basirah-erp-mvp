@@ -56,8 +56,8 @@ export default function JournalEntryForm({ journalEntry, accounts, onSave, onCan
       const timestamp = Date.now().toString().slice(-6);
       setFormData(prev => ({
         ...prev,
-        entry_number: `JE-${timestamp}`,
-        entries: [{ id: `item-${Date.now()}-1`, account_id: '', account_name: '', debit: 0, credit: 0 }],
+        entry_number: \`JE-${timestamp}`,
+        entries: [{ id: \`item-${Date.now()}-1`, account_id: '', account_name: '', debit: 0, credit: 0 }],
       }));
     }
   }, [journalEntry]);
@@ -65,7 +65,7 @@ export default function JournalEntryForm({ journalEntry, accounts, onSave, onCan
   const addEntry = () => {
     setFormData(prev => ({
       ...prev,
-      entries: [...prev.entries, { id: `item-${Date.now()}-${prev.entries.length + 1}`, account_id: '', account_name: '', debit: 0, credit: 0 }],
+      entries: [...prev.entries, { id: \`item-${Date.now()}-${prev.entries.length + 1}`, account_id: '', account_name: '', debit: 0, credit: 0 }],
     }));
   };
 
