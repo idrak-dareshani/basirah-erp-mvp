@@ -1,26 +1,33 @@
 import React, { useState } from 'react';
 import { Plus, Edit, Trash2, Search, Download, X } from 'lucide-react';
+import { Database } from '../../lib/database.types';
+
+type Account = Database['public']['Tables']['accounts']['Row'];
+type AccountInsert = Database['public']['Tables']['accounts']['Insert'];
+type AccountUpdate = Database['public']['Tables']['accounts']['Update'];
 
 interface ChartOfAccountsProps {
-  accounts: any[];
-  onUpdateAccounts: (accounts: any[]) => void;
+  accounts: Account[];
+  createAccount: (account: AccountInsert) => Promise<Account | null>;
+  updateAccount: (id: string, updates: AccountUpdate) => Promise<Account | null>;
+  removeAccount: (id: string) => Promise<boolean>;
 }
 
-export default function ChartOfAccounts({ accounts, onUpdateAccounts }: ChartOfAccountsProps) {
+export default function ChartOfAccounts({ accounts, createAccount, updateAccount, removeAccount }: ChartOfAccountsProps) {
   const [showForm, setShowForm] = useState(false);
-  const [editingAccount, setEditingAccount] = useState<any>(null);
+  const [editingAccount, setEditingAccount] = useState<Account | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState<string>('all');
   const [formData, setFormData] = useState({
-    accountNumber: '',
-    accountName: '',
-    accountType: '',
+    account_number: '',
+    account_name: '',
+    account_type: '' as 'Asset' | 'Liability' | 'Equity' | 'Revenue' | 'Expense' | '',
     category: '',
-    balance: '',
+    balance: 0,
     description: ''
   });
 
-  const accountTypes = ['Asset', 'Liability', 'Equity', 'Revenue', 'Expense'];
+  const accountTypes: ('Asset' | 'Liability' | 'Equity' | 'Revenue' | 'Expense')[] = ['Asset', 'Liability', 'Equity', 'Revenue', 'Expense'];
   
   const categories = {
     'Asset': ['Current Assets', 'Fixed Assets', 'Other Assets'],
@@ -32,63 +39,62 @@ export default function ChartOfAccounts({ accounts, onUpdateAccounts }: ChartOfA
 
   const resetForm = () => {
     setFormData({
-      accountNumber: '',
-      accountName: '',
-      accountType: '',
+      account_number: '',
+      account_name: '',
+      account_type: '' as any,
       category: '',
-      balance: '',
+      balance: 0,
       description: ''
     });
     setEditingAccount(null);
     setShowForm(false);
   };
 
-  const handleEdit = (account: any) => {
+  const handleEdit = (account: Account) => {
     setEditingAccount(account);
     setFormData({
-      accountNumber: account.accountNumber,
-      accountName: account.accountName,
-      accountType: account.accountType,
+      account_number: account.account_number,
+      account_name: account.account_name,
+      account_type: account.account_type,
       category: account.category,
-      balance: account.balance.toString(),
-      description: account.description
+      balance: account.balance,
+      description: account.description || ''
     });
     setShowForm(true);
   };
 
-  const handleSave = (e: React.FormEvent) => {
+  const handleSave = async (e: React.FormEvent) => {
     e.preventDefault();
-    const accountData = {
-      ...formData,
-      balance: parseFloat(formData.balance)
+    
+    const accountData: AccountInsert | AccountUpdate = {
+      account_number: formData.account_number,
+      account_name: formData.account_name,
+      account_type: formData.account_type as 'Asset' | 'Liability' | 'Equity' | 'Revenue' | 'Expense',
+      category: formData.category,
+      balance: formData.balance,
+      description: formData.description || null
     };
 
     if (editingAccount) {
-      onUpdateAccounts(accounts.map(acc => 
-        acc.id === editingAccount.id ? { ...accountData, id: editingAccount.id } : acc
-      ));
+      await updateAccount(editingAccount.id, accountData);
     } else {
-      const newAccount = {
-        ...accountData,
-        id: Date.now().toString()
-      };
-      onUpdateAccounts([...accounts, newAccount]);
+      await createAccount(accountData);
     }
     resetForm();
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (confirm('Are you sure you want to delete this account?')) {
-      onUpdateAccounts(accounts.filter(acc => acc.id !== id));
+      await removeAccount(id);
     }
   };
 
   const filteredAccounts = accounts
-    .filter(account => filter === 'all' || account.accountType === filter)
+    .filter(account => filter === 'all' || account.account_type === filter)
     .filter(account =>
       searchTerm === '' ||
-      account.accountName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      account.accountNumber.includes(searchTerm)
+      account.account_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      account.account_number.includes(searchTerm)
     );
 
   const exportToCSV = () => {
@@ -96,9 +102,9 @@ export default function ChartOfAccounts({ accounts, onUpdateAccounts }: ChartOfA
     const csvContent = [
       headers.join(','),
       ...filteredAccounts.map(acc => [
-        acc.accountNumber,
-        `"${acc.accountName}"`,
-        acc.accountType,
+        acc.account_number,
+        `"${acc.account_name}"`,
+        acc.account_type,
         `"${acc.category}"`,
         acc.balance.toFixed(2)
       ].join(','))
@@ -177,14 +183,14 @@ export default function ChartOfAccounts({ accounts, onUpdateAccounts }: ChartOfA
             <tbody className="divide-y divide-slate-200">
               {filteredAccounts.map((account) => (
                 <tr key={account.id} className="hover:bg-slate-50">
-                  <td className="px-6 py-4 text-sm font-medium text-slate-900">{account.accountNumber}</td>
+                  <td className="px-6 py-4 text-sm font-medium text-slate-900">{account.account_number}</td>
                   <td className="px-6 py-4">
                     <div>
-                      <p className="text-sm font-medium text-slate-900">{account.accountName}</p>
-                      <p className="text-xs text-slate-500">{account.description}</p>
+                      <p className="text-sm font-medium text-slate-900">{account.account_name}</p>
+                      <p className="text-xs text-slate-500">{account.description || ''}</p>
                     </div>
                   </td>
-                  <td className="px-6 py-4 text-sm text-slate-900">{account.accountType}</td>
+                  <td className="px-6 py-4 text-sm text-slate-900">{account.account_type}</td>
                   <td className="px-6 py-4 text-sm text-slate-900">{account.category}</td>
                   <td className="px-6 py-4 text-sm font-medium">
                     <span className={account.balance >= 0 ? 'text-green-600' : 'text-red-600'}>
@@ -232,8 +238,8 @@ export default function ChartOfAccounts({ accounts, onUpdateAccounts }: ChartOfA
                 <label className="block text-sm font-medium text-slate-700 mb-2">Account Number</label>
                 <input
                   type="text"
-                  value={formData.accountNumber}
-                  onChange={(e) => setFormData(prev => ({ ...prev, accountNumber: e.target.value }))}
+                  value={formData.account_number}
+                  onChange={(e) => setFormData(prev => ({ ...prev, account_number: e.target.value }))}
                   className="w-full border border-slate-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   required
                 />
@@ -243,8 +249,8 @@ export default function ChartOfAccounts({ accounts, onUpdateAccounts }: ChartOfA
                 <label className="block text-sm font-medium text-slate-700 mb-2">Account Name</label>
                 <input
                   type="text"
-                  value={formData.accountName}
-                  onChange={(e) => setFormData(prev => ({ ...prev, accountName: e.target.value }))}
+                  value={formData.account_name}
+                  onChange={(e) => setFormData(prev => ({ ...prev, account_name: e.target.value }))}
                   className="w-full border border-slate-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   required
                 />
@@ -253,8 +259,8 @@ export default function ChartOfAccounts({ accounts, onUpdateAccounts }: ChartOfA
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">Account Type</label>
                 <select
-                  value={formData.accountType}
-                  onChange={(e) => setFormData(prev => ({ ...prev, accountType: e.target.value, category: '' }))}
+                  value={formData.account_type}
+                  onChange={(e) => setFormData(prev => ({ ...prev, account_type: e.target.value as any, category: '' }))}
                   className="w-full border border-slate-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   required
                 >
@@ -272,10 +278,10 @@ export default function ChartOfAccounts({ accounts, onUpdateAccounts }: ChartOfA
                   onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
                   className="w-full border border-slate-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   required
-                  disabled={!formData.accountType}
+                  disabled={!formData.account_type}
                 >
                   <option value="">Select Category</option>
-                  {formData.accountType && categories[formData.accountType as keyof typeof categories]?.map(cat => (
+                  {formData.account_type && categories[formData.account_type as keyof typeof categories]?.map(cat => (
                     <option key={cat} value={cat}>{cat}</option>
                   ))}
                 </select>
@@ -287,7 +293,7 @@ export default function ChartOfAccounts({ accounts, onUpdateAccounts }: ChartOfA
                   type="number"
                   step="0.01"
                   value={formData.balance}
-                  onChange={(e) => setFormData(prev => ({ ...prev, balance: e.target.value }))}
+                  onChange={(e) => setFormData(prev => ({ ...prev, balance: parseFloat(e.target.value) || 0 }))}
                   className="w-full border border-slate-300 rounded-md px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                   required
                 />
