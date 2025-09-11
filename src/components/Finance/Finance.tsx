@@ -78,6 +78,7 @@ export default function Finance() {
         onEdit={handleEdit}
         onDelete={handleDelete}
         onBulkDelete={handleBulkDelete}
+        onShowAddForm={() => setShowForm(true)}
       />
 
       {showForm && (
