@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Plus, Edit, Trash2, Search, Download, Eye, X, Plus } from 'lucide-react';
+import { Plus, Edit, Trash2, Search, Download, Eye, X } from 'lucide-react';
 
 interface JournalEntriesProps {
   journalEntries: any[];
