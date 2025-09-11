@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Edit, Trash2, Filter, Search, Download, Upload, Trash } from 'lucide-react';
+import { Edit, Trash2, Filter, Search, Download, Upload, Trash, Plus } from 'lucide-react';
 import { Database } from '../../lib/database.types';
 
 type Transaction = Database['public']['Tables']['transactions']['Row'];
@@ -9,9 +9,10 @@ interface TransactionListProps {
   onEdit: (transaction: Transaction) => void;
   onDelete: (id: string) => void;
   onBulkDelete?: (ids: string[]) => void;
+  onShowAddForm?: () => void;
 }
 
-export default function TransactionList({ transactions, onEdit, onDelete, onBulkDelete }: TransactionListProps) {
+export default function TransactionList({ transactions, onEdit, onDelete, onBulkDelete, onShowAddForm }: TransactionListProps) {
   const [filter, setFilter] = useState<'all' | 'income' | 'expense'>('all');
   const [sortBy, setSortBy] = useState<'date' | 'amount'>('date');
   const [searchTerm, setSearchTerm] = useState('');
@@ -152,6 +153,14 @@ export default function TransactionList({ transactions, onEdit, onDelete, onBulk
             >
               <Download size={16} />
               <span>Export</span>
+            </button>
+
+            <button
+              onClick={() => setShowAddForm(true)}
+              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors flex items-center space-x-2"
+            >
+              <Plus size={20} />
+              <span>Add Transaction</span>
             </button>
           </div>
         </div>
