@@ -20,16 +20,7 @@ export default function Accounting() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        {activeTab === 'journal' && (
-          <button
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
-          >
-            <Plus size={20} />
-            <span>New Journal Entry</span>
-          </button>
-        )}
-      </div>
+      
 
       <AccountingSummary accounts={accounts} journalEntries={journalEntries} />
 
