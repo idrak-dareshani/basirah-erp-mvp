@@ -62,17 +62,7 @@ export default function HumanResources() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        {activeTab === 'employees' && (
-          <button
-            onClick={() => setShowForm(true)}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
-          >
-            <Plus size={20} />
-            <span>Add Employee</span>
-          </button>
-        )}
-      </div>
+      
 
       <HRSummary 
         employees={employees}
