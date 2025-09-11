@@ -52,16 +52,6 @@ export default function Inventory() {
 
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <button
-          onClick={() => setShowForm(true)}
-          className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
-        >
-          <Plus size={20} />
-          <span>Add Product</span>
-        </button>
-      </div>
-
       {loading && (
         <div className="flex justify-center items-center py-8">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
@@ -85,6 +75,7 @@ export default function Inventory() {
         onEdit={handleEditProduct}
         onDelete={handleDeleteProduct}
         onBulkDelete={handleBulkDeleteProducts}
+        onShowAddForm={() => setShowForm(true)}
       />
 
       {showForm && (

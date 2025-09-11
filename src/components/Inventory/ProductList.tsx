@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Edit, Trash2, AlertTriangle, Search, Download, Trash, Eye, X } from 'lucide-react';
+import { Edit, Trash2, AlertTriangle, Search, Download, Trash, Eye, X, Plus } from 'lucide-react';
 import { Database } from '../../lib/database.types';
 
 type Product = Database['public']['Tables']['products']['Row'];
@@ -9,9 +9,10 @@ interface ProductListProps {
   onEdit: (product: Product) => void;
   onDelete: (id: string) => void;
   onBulkDelete?: (ids: string[]) => void;
+  onShowAddForm?: () => void;
 }
 
-export default function ProductList({ products, onEdit, onDelete, onBulkDelete }: ProductListProps) {
+export default function ProductList({ products, onEdit, onDelete, onBulkDelete, onShowAddForm }: ProductListProps) {
   const [filter, setFilter] = useState<'all' | 'low-stock' | 'category'>('all');
   const [categoryFilter, setCategoryFilter] = useState('');
   const [sortBy, setSortBy] = useState<'name' | 'stock' | 'price'>('name');
@@ -399,6 +400,14 @@ export default function ProductList({ products, onEdit, onDelete, onBulkDelete }
                 </div>
               )}
             </div>
+
+            <button
+              onClick={() => onShowAddForm?.()}
+              className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors flex items-center space-x-2"
+            >
+              <Plus size={20} />
+              <span>Add Product</span>
+            </button>
           </div>
         </div>
       )}
