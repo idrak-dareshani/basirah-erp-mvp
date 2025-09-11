@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Edit, Trash2, Search, Download, Trash, Eye, User, X } from 'lucide-react';
+import { Edit, Trash2, Search, Download, Trash, Eye, User, X, Plus } from 'lucide-react';
 
 interface EmployeeListProps {
   employees: any[];
@@ -8,7 +8,7 @@ interface EmployeeListProps {
   onBulkDelete?: (ids: string[]) => void;
 }
 
-export default function EmployeeList({ employees, onEdit, onDelete, onBulkDelete }: EmployeeListProps) {
+export default function EmployeeList({ employees, onEdit, onDelete, onBulkDelete, onShowAddForm }: EmployeeListProps) {
   const [filter, setFilter] = useState<string>('all');
   const [sortBy, setSortBy] = useState<'name' | 'department' | 'salary'>('name');
   const [searchTerm, setSearchTerm] = useState('');
