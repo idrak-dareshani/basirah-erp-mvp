@@ -155,7 +155,7 @@ export default function EmployeeList({ employees, onEdit, onDelete, onBulkDelete
               </button>
 
               <button
-            onClick={() => setShowForm(true)}
+            onClick={() => onShowAddForm(true)}
             className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
           >
             <Plus size={20} />
