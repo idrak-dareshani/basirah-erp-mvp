@@ -22,7 +22,6 @@ export default function Settings() {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold text-slate-900">Settings</h2>
       </div>
 
       <div className="bg-white rounded-lg shadow-sm border border-slate-200">
