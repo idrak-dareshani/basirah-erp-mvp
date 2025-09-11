@@ -14,6 +14,41 @@ function App() {
   const [activeModule, setActiveModule] = useState('dashboard');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
+  const moduleTitles = {
+    dashboard: {
+      title: 'Dashboard',
+      subtitle: 'Overview of your business performance and key metrics'
+    },
+    finance: {
+      title: 'Finance Management',
+      subtitle: 'Track income, expenses, and financial transactions'
+    },
+    sales: {
+      title: 'Sales & Purchase Management',
+      subtitle: 'Manage sales orders, purchase orders, customers, and vendors'
+    },
+    inventory: {
+      title: 'Inventory Management',
+      subtitle: 'Monitor stock levels, products, and inventory valuation'
+    },
+    hr: {
+      title: 'Human Resources',
+      subtitle: 'Employee management, payroll, and leave tracking'
+    },
+    accounting: {
+      title: 'Accounting',
+      subtitle: 'Chart of accounts, journal entries, and financial reports'
+    },
+    reports: {
+      title: 'Reports & Analytics',
+      subtitle: 'Generate and view business reports and analytics'
+    },
+    settings: {
+      title: 'Settings',
+      subtitle: 'Configure system preferences and company information'
+    }
+  };
+
   const renderActiveModule = () => {
     switch (activeModule) {
       case 'dashboard':
@@ -44,7 +79,7 @@ function App() {
         sidebarCollapsed={sidebarCollapsed}
       />
       
-      <div className="flex flex-1">
+      <div className="flex flex-1 pt-16">
         <Sidebar
           activeModule={activeModule}
           onModuleChange={setActiveModule}
@@ -52,6 +87,14 @@ function App() {
         />
         
         <main className="flex-1 p-6 overflow-auto">
+          <div className="mb-6">
+            <h1 className="text-3xl font-bold text-slate-900 mb-2">
+              {moduleTitles[activeModule as keyof typeof moduleTitles]?.title}
+            </h1>
+            <p className="text-slate-600">
+              {moduleTitles[activeModule as keyof typeof moduleTitles]?.subtitle}
+            </p>
+          </div>
           {renderActiveModule()}
         </main>
       </div>
