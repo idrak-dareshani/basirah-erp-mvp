@@ -1,4 +1,4 @@
-# Basirah-ERP | Enterprice Resource Planning
+# Basirah-ERP | Enterprise Resource Planning
 
 Basirah-ERP is a modular ERP system built with React, TypeScript, Vite, and Tailwind CSS.
 
