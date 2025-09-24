@@ -68,3 +68,7 @@ supabase/
 - Tailwind CSS for styling
 - Vite for fast development
 - Supabase integration (see `supabase/`)
+
+## License
+
+MIT
